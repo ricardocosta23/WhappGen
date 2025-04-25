@@ -1,19 +1,14 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "app.py",  # Or whatever your main Flask file is named
-            "use": "@vercel/python"
-        },
-        {
-          "src": "static/**",
-          "use": "@vercel/static"
-        },
-        {
-          "src": "templates/**",
-          "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "
+  "builds": [
+    {
+      "src": "application.py", # Changed src
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "application.py"  # Changed dest
+    }
+  ]
+}
