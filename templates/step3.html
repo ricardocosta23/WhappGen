@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Step 3: Configure Security Number</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step active">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Security Number</h5>
+            </div>
+            <div class="card-body">
+                <p>Enter your security number below. This number will be used when connecting to WhatsApp.</p>
+                
+                <div class="alert alert-info mb-3">
+                    <strong>Note:</strong> The security number should be in the format of a valid phone number with country code,
+                    without any spaces or special characters (e.g., 551234567890).
+                </div>
+                
+                <form action="{{ url_for('save_security_number') }}" method="post">
+                    <div class="form-group mb-3">
+                        <label for="security_number">Security Number:</label>
+                        <input type="text" class="form-control" id="security_number" name="security_number" 
+                               value="{{ config.security_number }}" required>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-whatsapp">Save Security Number</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Current Value</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    {% if config.security_number %}
+                        Current security number: <strong>{{ config.security_number }}</strong>
+                    {% else %}
+                        No security number has been set yet.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Navigation</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('step', step=2) }}" class="btn btn-secondary">
+                        Previous: Coordinates
+                    </a>
+                    <a href="{{ url_for('step', step=4) }}" class="btn btn-primary">
+                        Next: Messages
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

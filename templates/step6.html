@@ -1,0 +1,154 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Step 6: Execute Script</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Upload</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=6) }}" class="text-decoration-none">
+                <div class="step active">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Generate and Run Script</h5>
+            </div>
+            <div class="card-body">
+                <p>Generate the AutoHotkey script based on your configuration.</p>
+
+                <div class="alert alert-warning mb-3">
+                    <strong>Validation:</strong>
+                    <ul class="mb-0">
+                        <li>
+                            Security Number: 
+                            {% if config.security_number %}
+                                <span class="text-success">✓ Set</span>
+                            {% else %}
+                                <span class="text-danger">✗ Not set</span>
+                            {% endif %}
+                        </li>
+                        <li>
+                            Coordinates: 
+                            {% if config.coordinate_x != 0 or config.coordinate_y != 0 %}
+                                <span class="text-success">✓ Set ({{ config.coordinate_x }}, {{ config.coordinate_y }})</span>
+                            {% else %}
+                                <span class="text-danger">✗ Not set</span>
+                            {% endif %}
+                        </li>
+                        <li>
+                            Phone Numbers: 
+                            {% if phone_numbers_count > 0 %}
+                                <span class="text-success">✓ {{ phone_numbers_count }} numbers loaded</span>
+                            {% else %}
+                                <span class="text-danger">✗ No numbers loaded</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <form action="{{ url_for('generate_script') }}" method="post">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-whatsapp" 
+                                        {% if not config.security_number or (config.coordinate_x == 0 and config.coordinate_y == 0) or phone_numbers_count == 0 %}disabled{% endif %}>
+                                    Generate Script
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% if session.get('generated_script') %}
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            <strong>Script Generated:</strong> {{ session.get('generated_script') }}
+                            <hr>
+                            <a href="{{ url_for('download_script') }}" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Download AHK Script
+                            </a>
+                            <a href="{{ url_for('download_script', type='bat') }}" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Download BAT Script
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="alert alert-info">
+                    <strong>Note:</strong> The script will be saved to a file that can be run on a Windows system with AutoHotkey installed.
+                    In this web preview, you can generate the script but not actually run it as it requires Windows and AutoHotkey.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Navigation</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('step', step=5) }}" class="btn btn-secondary">
+                        Previous: Upload
+                    </a>
+                    <a href="{{ url_for('troubleshooting') }}" class="btn btn-warning">
+                        <i class="fas fa-wrench"></i> Troubleshooting
+                    </a>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        Go to Overview
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

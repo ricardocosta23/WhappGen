@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Step 5: Upload Phone Numbers</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step active">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Upload</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=6) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Import Phone Numbers</h5>
+            </div>
+            <div class="card-body">
+                <p>Upload a CSV file with phone numbers to send messages to.</p>
+
+                <div class="alert alert-info mb-3">
+                    <strong>Important:</strong> The CSV file must contain a column named "Numero de Telefone" with phone numbers in international format (e.g., 551234567890).
+                </div>
+
+                <form action="{{ url_for('process_csv') }}" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="csv_file" class="form-label">CSV File:</label>
+                        <input class="form-control" type="file" id="csv_file" name="csv_file" accept=".csv">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-whatsapp">Upload CSV</button>
+                    </div>
+                </form>
+
+                <hr>
+
+                <div class="d-grid gap-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{ url_for('generate_sample_csv') }}" class="btn btn-outline-secondary d-block">Generate Sample CSV</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('download_sample_csv') }}" class="btn btn-outline-primary d-block">Download Sample CSV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Phone Numbers</h5>
+            </div>
+            <div class="card-body">
+                {% if phone_numbers %}
+                    <p>{{ phone_numbers|length }} phone numbers loaded:</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Phone Number</th>
+                                {% if phone_numbers[0].get('Nome') %}
+                                <th>Name</th>
+                                {% endif %}
+                                {% if phone_numbers[0].get('Email') %}
+                                <th>Email</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for number in phone_numbers %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ number['Numero de Telefone'] }}</td>
+                                    {% if number.get('Nome') %}
+                                    <td>{{ number['Nome'] }}</td>
+                                    {% endif %}
+                                    {% if number.get('Email') %}
+                                    <td>{{ number['Email'] }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-center">No phone numbers have been imported yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Navigation</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('step', step=4) }}" class="btn btn-secondary">
+                        Previous: Messages
+                    </a>
+                    <a href="{{ url_for('step', step=6) }}" class="btn btn-primary">
+                        Next: Execute Script
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

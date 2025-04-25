@@ -1,0 +1,14 @@
+{
+  "coordinate_x": 700,
+  "coordinate_y": 710,
+  "security_number": "5511948467227",
+  "autohotkey_installed": true,
+  "whatsapp_installed": true,
+  "sleep_times": {
+    "sleep_1": 1000,
+    "sleep_2": 3000,
+    "sleep_3": 6000,
+    "sleep_4": 9000
+  },
+  "troubleshooting_count": 0
+}

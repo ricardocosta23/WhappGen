@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="display-4 mb-0">WhatsApp Messaging Automation</h1>
+            <a href="{{ url_for('step', step=6) }}" class="btn btn-warning ms-3" title="Troubleshooting">
+                <i class="fas fa-wrench"></i>
+            </a>
+        </div>
+        <p class="lead mt-2">Automate WhatsApp messaging with AutoHotkey scripts</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Current Configuration</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                AutoHotkey Installed
+                                <span class="badge {% if config.autohotkey_installed %}bg-success{% else %}bg-danger{% endif %} rounded-pill">
+                                    {% if config.autohotkey_installed %}Yes{% else %}No{% endif %}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                WhatsApp Desktop Installed
+                                <span class="badge {% if config.whatsapp_installed %}bg-success{% else %}bg-danger{% endif %} rounded-pill">
+                                    {% if config.whatsapp_installed %}Yes{% else %}No{% endif %}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Message Field Coordinates
+                                <span class="badge {% if config.coordinate_x != 0 or config.coordinate_y != 0 %}bg-success{% else %}bg-secondary{% endif %} rounded-pill">
+                                    ({{ config.coordinate_x }}, {{ config.coordinate_y }})
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Security Number
+                                <span class="badge {% if config.security_number %}bg-success{% else %}bg-secondary{% endif %} rounded-pill">
+                                    {% if config.security_number %}Set{% else %}Not Set{% endif %}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Messages Configured
+                                <span class="badge {% if messages_count > 0 %}bg-success{% else %}bg-secondary{% endif %} rounded-pill">
+                                    {{ messages_count }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Phone Numbers Imported
+                                <span class="badge {% if phone_numbers_count > 0 %}bg-success{% else %}bg-secondary{% endif %} rounded-pill">
+                                    {{ phone_numbers_count }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <h2 class="mb-4">Get Started</h2>
+            <p>Follow the steps below to configure and run your WhatsApp automation:</p>
+            
+            <div class="d-grid gap-2 col-md-6 mx-auto">
+                <a href="{{ url_for('step', step=1) }}" class="btn btn-whatsapp btn-lg">Start Setup</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

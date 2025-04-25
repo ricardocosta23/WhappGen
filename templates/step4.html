@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Step 4: Configure Messages</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step active">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Message Templates</h5>
+            </div>
+            <div class="card-body">
+                <p>Configure the message templates that will be sent to each contact. You can configure up to 4 messages for 4 sets (A, B, C, D).</p>
+                
+                <div class="alert alert-info mb-3">
+                    <strong>Note:</strong> The message sets will be used in rotation for each phone number. For example, the first contact will receive messages from Set A, the second from Set B, and so on.
+                </div>
+                
+                <form action="{{ url_for('save_messages_route') }}" method="post">
+                    <ul class="nav nav-tabs" id="messageTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="setA-tab" data-bs-toggle="tab" data-bs-target="#setA" type="button" role="tab" aria-controls="setA" aria-selected="true">Set A</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="setB-tab" data-bs-toggle="tab" data-bs-target="#setB" type="button" role="tab" aria-controls="setB" aria-selected="false">Set B</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="setC-tab" data-bs-toggle="tab" data-bs-target="#setC" type="button" role="tab" aria-controls="setC" aria-selected="false">Set C</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="setD-tab" data-bs-toggle="tab" data-bs-target="#setD" type="button" role="tab" aria-controls="setD" aria-selected="false">Set D</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content p-3 border border-top-0 rounded-bottom mb-4" id="messageTabsContent">
+                        <!-- Set A -->
+                        <div class="tab-pane fade show active" id="setA" role="tabpanel" aria-labelledby="setA-tab">
+                            {% for i in range(1, 5) %}
+                            <div class="form-group mb-3">
+                                <label for="msg{{ i }}A">Message {{ i }}:</label>
+                                <textarea class="form-control" id="msg{{ i }}A" name="msg{{ i }}A" rows="3">{{ messages.get('msg' ~ i ~ 'A', '') }}</textarea>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Set B -->
+                        <div class="tab-pane fade" id="setB" role="tabpanel" aria-labelledby="setB-tab">
+                            {% for i in range(1, 5) %}
+                            <div class="form-group mb-3">
+                                <label for="msg{{ i }}B">Message {{ i }}:</label>
+                                <textarea class="form-control" id="msg{{ i }}B" name="msg{{ i }}B" rows="3">{{ messages.get('msg' ~ i ~ 'B', '') }}</textarea>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Set C -->
+                        <div class="tab-pane fade" id="setC" role="tabpanel" aria-labelledby="setC-tab">
+                            {% for i in range(1, 5) %}
+                            <div class="form-group mb-3">
+                                <label for="msg{{ i }}C">Message {{ i }}:</label>
+                                <textarea class="form-control" id="msg{{ i }}C" name="msg{{ i }}C" rows="3">{{ messages.get('msg' ~ i ~ 'C', '') }}</textarea>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Set D -->
+                        <div class="tab-pane fade" id="setD" role="tabpanel" aria-labelledby="setD-tab">
+                            {% for i in range(1, 5) %}
+                            <div class="form-group mb-3">
+                                <label for="msg{{ i }}D">Message {{ i }}:</label>
+                                <textarea class="form-control" id="msg{{ i }}D" name="msg{{ i }}D" rows="3">{{ messages.get('msg' ~ i ~ 'D', '') }}</textarea>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-whatsapp">Save Messages</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Navigation</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('step', step=3) }}" class="btn btn-secondary">
+                        Previous: Security Number
+                    </a>
+                    <a href="{{ url_for('step', step=5) }}" class="btn btn-primary">
+                        Next: Execute Script
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

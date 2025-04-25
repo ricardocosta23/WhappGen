@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Step 1: Setup Dependencies</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">AutoHotkey Installation</h5>
+            </div>
+            <div class="card-body">
+                <p>AutoHotkey is required to run the automation scripts.</p>
+                
+                <div class="alert {% if config.autohotkey_installed %}alert-success{% else %}alert-warning{% endif %}">
+                    {% if config.autohotkey_installed %}
+                        <strong>✓</strong> AutoHotkey is installed
+                    {% else %}
+                        <strong>⚠</strong> AutoHotkey is not installed
+                    {% endif %}
+                </div>
+                
+                <form action="{{ url_for('check_dependencies') }}" method="post">
+                    <button type="submit" class="btn btn-whatsapp" {% if config.autohotkey_installed %}disabled{% endif %}>
+                        {% if config.autohotkey_installed %}Installed{% else %}Check/Install AutoHotkey{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">WhatsApp Desktop Installation</h5>
+            </div>
+            <div class="card-body">
+                <p>WhatsApp Desktop is required for the automation to work properly.</p>
+                
+                <div class="alert {% if config.whatsapp_installed %}alert-success{% else %}alert-warning{% endif %}">
+                    {% if config.whatsapp_installed %}
+                        <strong>✓</strong> WhatsApp Desktop is installed
+                    {% else %}
+                        <strong>⚠</strong> WhatsApp Desktop is not installed
+                    {% endif %}
+                </div>
+                
+                <a href="https://www.whatsapp.com/download" target="_blank" class="btn btn-whatsapp" {% if config.whatsapp_installed %}disabled{% endif %}>
+                    {% if config.whatsapp_installed %}Installed{% else %}Download WhatsApp Desktop{% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Next Steps</h5>
+            </div>
+            <div class="card-body">
+                <p>Once you have installed the required dependencies, you can proceed to the next step to configure the message field coordinates.</p>
+                
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('step', step=2) }}" class="btn btn-primary">
+                        Next: Configure Coordinates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

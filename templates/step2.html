@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Step 2: Capture WhatsApp Message Field Coordinates</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="step-indicator">
+            <a href="{{ url_for('step', step=1) }}" class="text-decoration-none">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Setup</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=2) }}" class="text-decoration-none">
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Coordinates</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=3) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Security Number</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=4) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Messages</div>
+                </div>
+            </a>
+            <a href="{{ url_for('step', step=5) }}" class="text-decoration-none">
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Execute</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Capture WhatsApp Message Field Coordinates</h5>
+            </div>
+            <div class="card-body">
+                <p>You need to capture the coordinates of the WhatsApp message input field.</p>
+                
+                <div class="alert alert-info">
+                    <p><strong>Instructions:</strong></p>
+                    <ol>
+                        <li>Open WhatsApp Desktop or WhatsApp Web</li>
+                        <li>Open a chat where you want to send messages</li>
+                        <li>Click "Capture Coordinates" button below</li>
+                        <li>In the overlay that appears, move your mouse to the message input field</li>
+                        <li>Click once at the position where the cursor should be placed to type messages</li>
+                        <li>The coordinates will be captured automatically</li>
+                    </ol>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-light">Current Coordinates</div>
+                            <div class="card-body">
+                                <p class="text-center">
+                                    {% if config.coordinate_x != 0 or config.coordinate_y != 0 %}
+                                        X: {{ config.coordinate_x }}, Y: {{ config.coordinate_y }}
+                                    {% else %}
+                                        No coordinates captured yet
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-warning">
+                            <p><strong>Note:</strong> In this web preview, you can't actually capture coordinates as it requires Windows desktop access. In the Windows application, this will open a special overlay to capture mouse coordinates.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form action="{{ url_for('save_coordinates') }}" method="post" class="mb-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="coordinate_x" class="form-label">X Coordinate:</label>
+                                <input type="number" class="form-control" id="coordinate_x" name="coordinate_x" value="{{ config.coordinate_x }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="coordinate_y" class="form-label">Y Coordinate:</label>
+                                <input type="number" class="form-control" id="coordinate_y" name="coordinate_y" value="{{ config.coordinate_y }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-whatsapp mb-2">Save Coordinates</button>
+                        <button type="button" class="btn btn-secondary mb-2" id="captureButton" disabled>
+                            Capture Coordinates (Windows Only)
+                        </button>
+                        <div class="alert alert-secondary text-center" id="captureMessage">
+                            <p class="mb-0">Coordinate capture is only available in the Windows desktop application.</p>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="alert alert-info">
+                    <p><strong>Windows Installation Requirements:</strong></p>
+                    <ul>
+                        <li>Python 3.6 or higher with tkinter (usually included with Python)</li>
+                        <li>PyAutoGUI library (can be installed with <code>pip install pyautogui</code>)</li>
+                        <li>PyWin32 library (can be installed with <code>pip install pywin32</code>)</li>
+                    </ul>
+                    <p>These are automatically handled in the Windows installer version.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">How It Works</h5>
+            </div>
+            <div class="card-body">
+                <p>The coordinate capture tool works as follows:</p>
+                <ol>
+                    <li>It creates a semi-transparent overlay on your screen</li>
+                    <li>A red crosshair follows your mouse cursor</li>
+                    <li>You position the cursor where you want the script to click and enter text</li>
+                    <li>When you click, the coordinates are captured and saved</li>
+                </ol>
+                <p>These coordinates will be used by the AutoHotkey script to know where to click and type when sending messages.</p>
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='img/coordinate_capture.png') }}" alt="Coordinate Capture Tool" class="img-fluid rounded shadow-sm mb-3" style="max-width: 600px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Navigation</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('step', step=1) }}" class="btn btn-secondary">
+                        Previous: Setup
+                    </a>
+                    <a href="{{ url_for('step', step=3) }}" class="btn btn-primary">
+                        Next: Security Number
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

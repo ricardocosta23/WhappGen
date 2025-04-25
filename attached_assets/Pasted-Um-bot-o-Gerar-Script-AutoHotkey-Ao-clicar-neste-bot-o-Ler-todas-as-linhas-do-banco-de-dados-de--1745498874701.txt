@@ -1,0 +1,55 @@
+Um botão "Gerar Script AutoHotkey". Ao clicar neste botão:
+Ler todas as linhas do banco de dados de números de telefone.
+Para cada linha do banco de dados, gerar um bloco de código AutoHotkey seguindo o padrão especificado:
+Para a primeira linha do banco de dados, usar os blocos {msg_block1A}, {msg_block2A}, {msg_block3A}, {msg_block4A} substituindo as variáveis pelos valores inseridos e pelas coordenadas capturadas.
+Para a segunda linha do banco de dados, usar os blocos {msg_block1B}, {msg_block2B}, {msg_block3B}, {msg_block4B}, e assim sucessivamente, seguindo a sequência A, B, C, D para cada conjunto de mensagens.
+O script base para cada número de telefone do banco de dados deve ser:
+AutoHotkey
+
+Sleep {sleep_1}
+winactivate, ahk_exe chrome.exe
+winwaitactive, ahk_exe chrome.exe
+Sleep {sleep_2}
+Send !{Space}
+Send {x}
+Sleep {sleep_2}
+Send !{d}
+Sleep {sleep_1}
+Send https://api.whatsapp.com/send/?phone={security_number}
+Sleep {sleep_1}
+Send {Enter}
+Sleep {sleep_3}
+MouseMove {coordinate_x},{coordinate_y} ,10
+Sleep {sleep_4}
+MouseClick, Left, {coordinate_x}, {coordinate_y}
+Sleep {sleep_4}
+send +.
+Sleep {sleep_4}
+Send {Enter}
+Sleep {sleep_1}
+winactivate, ahk_exe chrome.exe
+winwaitactive, ahk_exe chrome.exe
+Sleep {sleep_2}
+Send !{Space}
+Send {x}
+Sleep {sleep_2}
+Send !{d}
+Sleep {sleep_1}
+Send https://api.whatsapp.com/send/?phone={number_line_atual}
+Sleep {sleep_1}
+Send {Enter}
+Sleep {sleep_4}
+{msg_block_atual_1}
+{msg_block_atual_2}
+{msg_block_atual_3}
+{msg_block_atual_4}
+onde {number_line_atual} é o número de telefone da linha atual do banco de dados e {msg_block_atual_1}, etc., seguem a sequência A, B, C, D para cada novo número.
+Salvar o script gerado em um arquivo com extensão .ahk em um local temporário ou definido pelo aplicativo.
+Um botão para avançar para o "Passo 5 - Executar Script".
+5. Tela de Execução do Script (Passo 5 - Executar Script):
+
+Um botão claramente rotulado como "Executar Automação".
+Ao clicar neste botão:
+Executar o script .ahk gerado utilizando o AutoHotkey instalado de forma silenciosa (sem exibir a interface do AutoHotkey ou notificar o usuário diretamente sobre o programa). Isso pode ser feito chamando o executável do AutoHotkey (AutoHotkey.exe) passando o caminho do script .ahk como argumento.
+Fornecer feedback visual ao usuário sobre o status da execução (por exemplo, "Automação em andamento...", "Concluído com sucesso", ou mensagens de erro, se ocorrerem).
+Um botão "Fechar Aplicativo".

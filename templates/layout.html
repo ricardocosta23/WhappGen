@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Messaging Automation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e9ecef;
+            z-index: -1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #6c757d;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-title {
+            font-size: 14px;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        .step.active .step-number {
+            background-color: #25D366; /* WhatsApp green */
+            color: #fff;
+        }
+        
+        .step.active .step-title {
+            color: #25D366;
+            font-weight: bold;
+        }
+        
+        .step.completed .step-number {
+            background-color: #25D366;
+            color: #fff;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+            border-color: #25D366;
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            border-color: #128C7E;
+            color: white;
+        }
+        
+        .flash-messages {
+            margin-top: 20px;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="30" height="30">
+                    <circle cx="50" cy="50" r="48" fill="#25D366" />
+                    <path fill="#FFFFFF" d="M50,18c-17.7,0-32,14.3-32,32c0,6.9,2.2,13.3,5.9,18.5L20,82l14.2-3.7C39.3,81.3,44.4,83,50,83
+                        c17.7,0,32-14.3,32-32S67.7,18,50,18z"/>
+                </svg>
+                WhatsApp Messaging Automation
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="mt-5 py-3 text-center text-muted">
+        <div class="container">
+            <p>WhatsApp Messaging Automation &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

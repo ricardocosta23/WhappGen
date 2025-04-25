@@ -1,0 +1,94 @@
+Crie um aplicativo para sistema operacional Windows que automatize o envio de mensagens no WhatsApp Desktop utilizando scripts AutoHotkey gerados dinamicamente. O aplicativo deverá ter as seguintes funcionalidades e interface de usuário, seguindo os passos sequenciais:"
+
+1. Tela de Início (Passo 1 - Começar Setup):
+
+Verificação de Sistema Operacional: Ao iniciar, o aplicativo deve verificar se o sistema operacional é Windows. Se não for, exibir uma mensagem clara de incompatibilidade e encerrar.
+Download e Instalação Silenciosa do AutoHotkey: Verificar se o AutoHotkey está instalado no sistema. Caso não esteja, realizar o download da versão mais recente e instalá-lo de forma silenciosa, sem exibir janelas de instalação para o usuário.
+Download do WhatsApp Desktop: Verificar se o WhatsApp Desktop está instalado. Se não estiver, fornecer um botão com um link direto para a página oficial de download do WhatsApp Desktop ou, se possível, realizar o download e instalação de forma automática (dependendo das permissões e possibilidades de instalação silenciosa).
+Um botão claro para o usuário avançar para o "Passo 2 - Coordenadas".
+2. Tela de Configuração de Coordenadas (Passo 2 - Coordenadas):
+
+Instruções Claras: Exibir instruções detalhadas para o usuário sobre como configurar as coordenadas do campo de envio do WhatsApp Desktop.
+Abertura Automática do WhatsApp Desktop: Um botão com a função de abrir o WhatsApp Desktop em tela cheia automaticamente.
+Mecanismo de Captura de Coordenadas:
+Sobrepor à tela do WhatsApp Desktop aberta (mantendo-a em tela cheia) uma visualização (por exemplo, um "X" gráfico que se move com o cursor do mouse).
+Um botão "OK" no aplicativo. Após o usuário arrastar o "X" sobre o campo de envio de mensagem desejado no WhatsApp Desktop e clicar no botão "OK", o aplicativo deverá capturar as coordenadas X e Y atuais do cursor do mouse.
+Salvar essas coordenadas internamente nas variáveis {coordinate_x} e {coordinate_y}.
+Fornecer feedback visual ao usuário de que as coordenadas foram salvas com sucesso.
+Um botão para avançar para o "Passo 3 - Número de Segurança".
+3. Tela de Número de Segurança (Passo 3 - Número de Segurança):
+
+Um campo de texto rotulado claramente como "Número de Segurança" para o usuário inserir o valor da variável {security_number}.
+Um botão para avançar para o "Passo 4 - Campos de Mensagens".
+4. Tela de Campos de Mensagens (Passo 4 - Campos de Mensagens):
+
+Organizar os campos de texto em um layout intuitivo, com 4 colunas claramente rotuladas (por exemplo, "Coluna A", "Coluna B", "Coluna C", "Coluna D").
+Dentro de cada coluna, fornecer campos de texto rotulados para cada mensagem: "Mensagem 1", "Mensagem 2", "Mensagem 3", "Mensagem 4". Estes campos corresponderão às variáveis {msg1A}, {msg1B}, {msg1C}, {msg1D}, {msg2A}, {msg2B}, {msg2C}, {msg2D} e assim por diante, até {msg4D}.
+Um botão para o usuário fazer o upload do arquivo .csv. Após o upload bem-sucedido:
+Ler o arquivo .csv.
+Para cada linha (após o cabeçalho), extrair o valor da coluna "Numero de Telefone" (garantindo que esteja no formato com DDI).
+Armazenar esses números de telefone em um banco de dados (local ou embarcado) com as colunas: numero_ID (autoincremento), numero_telefone (texto), date_timestamp (timestamp atual), e envios (inteiro, inicializado em 0).
+Ao processar cada número do .csv, verificar se ele já existe no banco de dados pela coluna numero_telefone.
+Se o número existir, atualizar a coluna date_timestamp com o timestamp atual e incrementar a coluna envios em 1.
+Se o número não existir, inserir uma nova linha com o numero_telefone, o date_timestamp atual e envios igual a 0.
+Um botão "Gerar Script AutoHotkey". Ao clicar neste botão:
+Ler todas as linhas do banco de dados de números de telefone.
+Para cada linha do banco de dados, gerar um bloco de código AutoHotkey seguindo o padrão especificado:
+Para a primeira linha do banco de dados, usar os blocos {msg_block1A}, {msg_block2A}, {msg_block3A}, {msg_block4A} substituindo as variáveis pelos valores inseridos e pelas coordenadas capturadas.
+Para a segunda linha do banco de dados, usar os blocos {msg_block1B}, {msg_block2B}, {msg_block3B}, {msg_block4B}, e assim sucessivamente, seguindo a sequência A, B, C, D para cada conjunto de mensagens.
+O script base para cada número de telefone do banco de dados deve ser:
+AutoHotkey
+
+Sleep {sleep_1}
+winactivate, ahk_exe chrome.exe
+winwaitactive, ahk_exe chrome.exe
+Sleep {sleep_2}
+Send !{Space}
+Send {x}
+Sleep {sleep_2}
+Send !{d}
+Sleep {sleep_1}
+Send https://api.whatsapp.com/send/?phone={security_number}
+Sleep {sleep_1}
+Send {Enter}
+Sleep {sleep_3}
+MouseMove {coordinate_x},{coordinate_y} ,10
+Sleep {sleep_4}
+MouseClick, Left, {coordinate_x}, {coordinate_y}
+Sleep {sleep_4}
+send +.
+Sleep {sleep_4}
+Send {Enter}
+Sleep {sleep_1}
+winactivate, ahk_exe chrome.exe
+winwaitactive, ahk_exe chrome.exe
+Sleep {sleep_2}
+Send !{Space}
+Send {x}
+Sleep {sleep_2}
+Send !{d}
+Sleep {sleep_1}
+Send https://api.whatsapp.com/send/?phone={number_line_atual}
+Sleep {sleep_1}
+Send {Enter}
+Sleep {sleep_4}
+{msg_block_atual_1}
+{msg_block_atual_2}
+{msg_block_atual_3}
+{msg_block_atual_4}
+onde {number_line_atual} é o número de telefone da linha atual do banco de dados e {msg_block_atual_1}, etc., seguem a sequência A, B, C, D para cada novo número.
+Salvar o script gerado em um arquivo com extensão .ahk em um local temporário ou definido pelo aplicativo.
+Um botão para avançar para o "Passo 5 - Executar Script".
+5. Tela de Execução do Script (Passo 5 - Executar Script):
+
+Um botão claramente rotulado como "Executar Automação".
+Ao clicar neste botão:
+Executar o script .ahk gerado utilizando o AutoHotkey instalado de forma silenciosa (sem exibir a interface do AutoHotkey ou notificar o usuário diretamente sobre o programa). Isso pode ser feito chamando o executável do AutoHotkey (AutoHotkey.exe) passando o caminho do script .ahk como argumento.
+Fornecer feedback visual ao usuário sobre o status da execução (por exemplo, "Automação em andamento...", "Concluído com sucesso", ou mensagens de erro, se ocorrerem).
+Um botão "Fechar Aplicativo".
+Considerações Adicionais para a IA:
+
+Tratamento de Erros: O aplicativo deve incluir mecanismos básicos de tratamento de erros (por exemplo, se o arquivo .csv estiver em formato incorreto, se o WhatsApp Desktop não for encontrado, etc.).
+Interface Amigável: A interface deve ser intuitiva e fácil de usar, com instruções claras em cada etapa.
+Segurança: Considerar implicações de segurança ao automatizar interações com outros aplicativos.
+Flexibilidade: Pensar em como o aplicativo pode ser adaptado ou estendido no futuro (por exemplo, permitir mais campos de mensagem, diferentes tipos de interação com o WhatsApp).
